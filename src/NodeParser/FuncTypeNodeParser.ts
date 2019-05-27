@@ -5,15 +5,16 @@ import { BaseType } from "../Type/BaseType";
 import { ObjectProperty, ObjectType } from "../Type/ObjectType";
 import { getKey } from "../Utils/nodeKey";
 
-export class FunctionDeclarationTypeNodeParser implements SubNodeParser {
+export class FuncTypeNodeParser implements SubNodeParser {
     public constructor(
         private typeChecker: ts.TypeChecker,
         private childNodeParser: NodeParser,
     ) {
     }
 
-    public supportsNode(node: ts.FunctionDeclaration): boolean {
-        return node.kind === ts.SyntaxKind.FunctionDeclaration;
+    public supportsNode(node: ts.FunctionDeclaration | ts.ArrowFunction): boolean {
+        return node.kind === ts.SyntaxKind.FunctionDeclaration
+            || node.kind === ts.SyntaxKind.ArrowFunction;
     }
     public createType(node: ts.FunctionDeclaration, context: Context): BaseType {
         return new ObjectType(
@@ -24,7 +25,7 @@ export class FunctionDeclarationTypeNodeParser implements SubNodeParser {
         );
     }
 
-    private getParameters(node: ts.FunctionDeclaration, context: Context): ObjectProperty[] {
+    private getParameters(node: ts.FunctionDeclaration | ts.ArrowFunction, context: Context): ObjectProperty[] {
         return node.parameters.map(paramNode => {
             return new ObjectProperty(
                 paramNode.name.getText(),

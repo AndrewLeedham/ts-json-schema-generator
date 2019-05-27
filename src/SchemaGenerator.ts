@@ -76,7 +76,8 @@ export class SchemaGenerator {
             node.kind === ts.SyntaxKind.InterfaceDeclaration ||
             node.kind === ts.SyntaxKind.EnumDeclaration ||
             node.kind === ts.SyntaxKind.TypeAliasDeclaration ||
-            node.kind === ts.SyntaxKind.FunctionDeclaration
+            node.kind === ts.SyntaxKind.FunctionDeclaration ||
+            node.kind === ts.SyntaxKind.ArrowFunction
         ) {
             if (!this.isExportType(node)) {
                 return;

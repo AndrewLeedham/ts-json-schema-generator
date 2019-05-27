@@ -14,6 +14,7 @@ import { BooleanTypeNodeParser } from "../src/NodeParser/BooleanTypeNodeParser";
 import { CallExpressionParser } from "../src/NodeParser/CallExpressionParser";
 import { EnumNodeParser } from "../src/NodeParser/EnumNodeParser";
 import { ExpressionWithTypeArgumentsNodeParser } from "../src/NodeParser/ExpressionWithTypeArgumentsNodeParser";
+import { FuncTypeNodeParser } from "../src/NodeParser/FuncTypeNodeParser";
 import { IndexedAccessTypeNodeParser } from "../src/NodeParser/IndexedAccessTypeNodeParser";
 import { InterfaceNodeParser } from "../src/NodeParser/InterfaceNodeParser";
 import { IntersectionNodeParser } from "../src/NodeParser/IntersectionNodeParser";
@@ -38,8 +39,6 @@ import { UndefinedTypeNodeParser } from "../src/NodeParser/UndefinedTypeNodePars
 import { UnionNodeParser } from "../src/NodeParser/UnionNodeParser";
 import { SubNodeParser } from "../src/SubNodeParser";
 import { TopRefNodeParser } from "../src/TopRefNodeParser";
-import { FunctionDeclarationTypeNodeParser } from "../src/NodeParser/FunctionDeclarationTypeNodeParser";
-
 
 export function createParser(program: ts.Program, config: Config): NodeParser {
     const typeChecker = program.getTypeChecker();
@@ -109,7 +108,7 @@ export function createParser(program: ts.Program, config: Config): NodeParser {
         ))))
 
         .addNodeParser(new ArrayNodeParser(chainNodeParser))
-        .addNodeParser(new FunctionDeclarationTypeNodeParser(typeChecker, chainNodeParser));
+        .addNodeParser(new FuncTypeNodeParser(typeChecker, chainNodeParser));
 
     return withTopRef(chainNodeParser);
 }
