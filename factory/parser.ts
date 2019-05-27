@@ -38,6 +38,7 @@ import { UndefinedTypeNodeParser } from "../src/NodeParser/UndefinedTypeNodePars
 import { UnionNodeParser } from "../src/NodeParser/UnionNodeParser";
 import { SubNodeParser } from "../src/SubNodeParser";
 import { TopRefNodeParser } from "../src/TopRefNodeParser";
+import { FunctionDeclarationTypeNodeParser } from "../src/NodeParser/FunctionDeclarationTypeNodeParser";
 
 
 export function createParser(program: ts.Program, config: Config): NodeParser {
@@ -107,7 +108,8 @@ export function createParser(program: ts.Program, config: Config): NodeParser {
             new TypeLiteralNodeParser(withJsDoc(chainNodeParser)),
         ))))
 
-        .addNodeParser(new ArrayNodeParser(chainNodeParser));
+        .addNodeParser(new ArrayNodeParser(chainNodeParser))
+        .addNodeParser(new FunctionDeclarationTypeNodeParser(typeChecker, chainNodeParser));
 
     return withTopRef(chainNodeParser);
 }
